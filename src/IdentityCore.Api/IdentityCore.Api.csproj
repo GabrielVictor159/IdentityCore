@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\src</DockerfileContext>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+    <UserSecretsId>a5f813f3-c17d-4234-8afd-ac26a18476a2</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IdentityCore.Application\IdentityCore.Application.csproj" />
+    <ProjectReference Include="..\IdentityCore.Domain\IdentityCore.Domain.csproj" />
+    <ProjectReference Include="..\IdentityCore.Infraestructure\IdentityCore.Infraestructure.csproj" />
+  </ItemGroup>
+
+</Project>

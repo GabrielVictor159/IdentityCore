@@ -1,0 +1,65 @@
+version: '3.4'
+
+services:
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer
+    restart: always
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+  identitycore.db:
+    image: postgres:latest
+    restart: always
+    ports:
+      - 5548:5432
+    networks:
+      - identitycore
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+
+  identitycore.api:
+    env_file:
+      - ./Env/.env
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=80
+      - ASPNETCORE_HTTPS_PORTS=443
+    networks:
+      - identitycore
+    ports:
+      - 8092:80
+      - 8093:443
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+
+  identitycore.web:
+    env_file:
+      - ./Env/.env
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=80
+      - ASPNETCORE_HTTPS_PORTS=443
+    networks:
+      - identitycore
+    ports:
+      - 8090:80
+      - 8091:443
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+
+networks:
+  identitycore:
+
+volumes:
+  portainer_data:
+  postgres-data:
+

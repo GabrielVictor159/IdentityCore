@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  identitycore.api:
+    image: ${DOCKER_REGISTRY-}identitycoreapi
+    build:
+      context: .
+      dockerfile: IdentityCore.Api/Dockerfile
+
+
+  identitycore.web:
+    image: ${DOCKER_REGISTRY-}identitycoreweb
+    build:
+      context: .
+      dockerfile: IdentityCore.Web/Dockerfile
+
